@@ -29,6 +29,53 @@ module Enumerable
     end
     return any_match
   end
+
+  def my_count
+    return self.length unless block_given?
+    counted = 0
+    for i in 0..self.length-1
+      counted += 1 if yield(self[i])
+    end
+    return counted
+  end
+
+  def my_each_with_index
+    return self unless block_given?
+    for i in 0..self.length-1
+      yield(self[i], i)
+    end
+    return self
+  end
+
+  def my_inject(initial_value)
+    output = initial_value
+    for i in 0..self.length-1
+      output = yield(output, self[i])
+    end
+    return output
+  end
+
+  def my_map
+    return self unless block_given?
+    output = []
+    for i in 0..self.length-1
+      output << yield(self[i])
+    end
+    return output
+  end
+
+  def my_none?(element=nil)
+    unless block_given?
+      return false if element == nil
+      return !self.include?(element)
+    end
+    none = true
+    for i in 0..self.length-1
+      none = false if yield(self[i])
+      break unless none
+    end
+    return none
+  end
 end
 
 # You will first have to define my_each
