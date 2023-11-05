@@ -20,21 +20,23 @@ module Enumerable
     return all_match
   end
 
-  def my_any?(&block)
-    return true unless block_given?
+  def my_any?(element = nil, &block)
+    return true unless block_given? || element != nil
     any_match = false
+    expr = block_given? ? -> (elem) { block.call(elem) } : -> (elem) { element == elem}
     for i in 0..self.length-1
-      any_match = block.call(self[i])
+      any_match = expr.call(self[i])
       return any_match unless any_match ==  false
     end
     return any_match
   end
 
-  def my_count
-    return self.length unless block_given?
+  def my_count(element=nil)
+    return self.length unless block_given? || element != nil
     counted = 0
+    expr = block_given? ? ->(elem) { yield(elem) } : ->(elem) { element == elem }
     for i in 0..self.length-1
-      counted += 1 if yield(self[i])
+      counted += 1 if expr.call(self[i])
     end
     return counted
   end
@@ -56,7 +58,7 @@ module Enumerable
   end
 
   def my_map
-    return self unless block_given?
+    return self.to_enum unless block_given?
     output = []
     for i in 0..self.length-1
       output << yield(self[i])

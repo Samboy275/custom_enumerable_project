@@ -19,5 +19,13 @@ RSpec.describe Enumerable do
         expect(enumerable.my_count { |value| value == 5 }).to eq 1
       end
     end
+
+    context 'When given an element to count' do
+      it 'returns the count of an element if given as an arguement' do
+        expect(enumerable.my_count(1)).to eq 2
+        expect(enumerable.my_count(3)).to eq 1
+        expect(enumerable.my_count(100)).to eq 0
+      end
+    end
   end
 end

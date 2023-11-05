@@ -17,5 +17,12 @@ RSpec.describe Enumerable do
         expect(enumerable.my_any?(&:negative?)).to eq false
       end
     end
+
+    context 'when given an element as an arguement' do
+      it 'checks if element is in array' do
+        expect(enumerable.my_any?(1)).to eq true
+        expect(enumerable.my_any?(99)).to eq false
+      end
+    end
   end
 end
