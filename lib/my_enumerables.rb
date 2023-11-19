@@ -2,7 +2,7 @@ module Enumerable
   # Your code goes here
   def my_select(&block)
     # implemented this method using the explicit block catching technique
-    return self unless block_given?
+    return self.to_enum unless block_given?
     selected = []
     for i in 0..self.length-1
       selected << self[i] if block.call(self[i])
@@ -42,7 +42,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return self unless block_given?
+    return self.to_enum unless block_given?
     for i in 0..self.length-1
       yield(self[i], i)
     end
